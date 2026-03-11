@@ -1805,12 +1805,18 @@ body{
 .header.scrolled .navbar ul li a,
 .header.active.scrolled .navbar ul li a {
     color: #ffffff !important;
+    text-decoration: none !important;
 }
 
 .header.scrolled .navbar ul li a:hover,
-.header.active.scrolled .navbar ul li a:hover {
+.header.active.scrolled .navbar ul li a:hover,
+.header.scrolled .navbar ul li a:focus,
+.header.active.scrolled .navbar ul li a:focus,
+.header.scrolled .navbar ul li a:active,
+.header.active.scrolled .navbar ul li a:active {
     color: #ffffff !important;
-    text-decoration: none !important;
+    text-decoration: underline !important;
+    text-decoration-color: #ffffff !important;
 }
 
 .footer {
