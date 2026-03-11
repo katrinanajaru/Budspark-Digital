@@ -1802,6 +1802,17 @@ body{
     box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,.25) !important;
 }
 
+.header.scrolled .navbar ul li a,
+.header.active.scrolled .navbar ul li a {
+    color: #ffffff !important;
+}
+
+.header.scrolled .navbar ul li a:hover,
+.header.active.scrolled .navbar ul li a:hover {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
 .footer {
     padding: 0 0 14px 0 !important;
 }

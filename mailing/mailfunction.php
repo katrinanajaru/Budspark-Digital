@@ -2,51 +2,49 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-require('./vendor/autoload.php');
-require 'mailingvariables.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/mailingvariables.php';
 
 function mailfunction($mail_reciever_email, $mail_reciever_name, $mail_msg, $attachment = false){
+    try {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
 
-    $mail = new PHPMailer();
-    $mail->isSMTP();
+        //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
 
-    //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->Host = $GLOBALS['mail_host'];
+        $mail->Port = (int) $GLOBALS['mail_port'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPAuth = true;
+        $mail->Username = $GLOBALS['mail_sender_email'];
+        $mail->Password = $GLOBALS['mail_sender_password'];
 
-    $mail->Host = $GLOBALS['mail_host'];
+        $mail->setFrom($GLOBALS['mail_sender_email'], $GLOBALS['mail_sender_name']);
+        $mail->addAddress($mail_reciever_email, $mail_reciever_name);
+        $mail->Subject = 'Someone Contacted You!';
+        $mail->isHTML(true);
+        $mail->msgHTML($mail_msg);
+        $mail->AltBody = 'This is a plain-text message body';
 
-    $mail->Port = $GLOBALS['mail_port'];
+        if ($attachment !== false) {
+            $mail->addAttachment($attachment);
+        }
 
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-
-    $mail->SMTPAuth = true;
-
-    $mail->Username = $GLOBALS['mail_sender_email'];
-
-    $mail->Password = $GLOBALS['mail_sender_password'];
-
-    $mail->setFrom($GLOBALS['mail_sender_email'], $GLOBALS['mail_sender_name']);
-
-    $mail->addAddress($mail_reciever_email, $mail_reciever_name);
-
-    $mail->Subject = 'Someone Contacted You!';
-
-    $mail->isHTML($isHtml = true );
-
-    $mail->msgHTML($mail_msg);
-
-
-    if($attachment !== false){
-        $mail->AddAttachment($attachment);
+        $mail->send();
+        return array('success' => true, 'error' => '');
+    } catch (Exception $e) {
+        return array('success' => false, 'error' => $mail->ErrorInfo ?: $e->getMessage());
     }
-    
-    $mail->AltBody = 'This is a plain-text message body';
- 
-    if (!$mail->send()) {
-        return false;
-    } else {
-        return true;
-    }
+}
+
+function isMailConfigReady() {
+    return !empty($GLOBALS['mail_host']) &&
+        !empty($GLOBALS['mail_port']) &&
+        !empty($GLOBALS['mail_sender_email']) &&
+        !empty($GLOBALS['mail_sender_password']) &&
+        !empty($GLOBALS['mail_sender_name']);
 }
 
 /* =========================================
@@ -54,6 +52,11 @@ function mailfunction($mail_reciever_email, $mail_reciever_name, $mail_msg, $att
    ========================================= */
 
 if (isset($_POST['submit'])) {
+    if (!isMailConfigReady()) {
+        echo "<script>alert('Email delivery is not configured yet. Please add SMTP sender credentials in mailing/mailingvariables.php first.'); window.location='../index.html';</script>";
+        exit;
+    }
+
     // Sanitize form inputs
     $name    = htmlspecialchars($_POST['name']);
     $email   = htmlspecialchars($_POST['email']);
@@ -75,13 +78,17 @@ if (isset($_POST['submit'])) {
         $attachment = $_FILES['attachment']['tmp_name'];
     }
 
-    // Send email to Ian
-    $sent = mailfunction('iankinyua322@gmail.com', 'Ian Kinyua', $message, $attachment);
+    // Send the enquiry to both published contact emails
+    $sentToIan = mailfunction('iankinyua322@gmail.com', 'Ian Kinyua', $message, $attachment);
+    $sentToKatrina = mailfunction('katrinanajaru1@gmail.com', 'Katrina Najaru', $message, $attachment);
+    $sent = $sentToIan['success'] && $sentToKatrina['success'];
 
     if ($sent) {
         echo "<script>alert('Thank you! Your consultation request has been sent successfully.'); window.location='../index.html';</script>";
     } else {
-        echo "<script>alert('Oops! Something went wrong. Please try again later.'); window.location='../index.html';</script>";
+        $errorMessage = $sentToIan['error'] ?: $sentToKatrina['error'] ?: 'Unknown mail error.';
+        $safeErrorMessage = htmlspecialchars($errorMessage, ENT_QUOTES);
+        echo "<script>alert('Mail error: {$safeErrorMessage}'); window.location='../index.html';</script>";
     }
 }
 
