@@ -8,8 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/mailingvariables.php';
 
 $consultationRecipients = array(
-    array('email' => 'ianwanjohi20@gmail.com', 'name' => 'Ian Kinyua'),
-    array('email' => 'katrinanajaru1@gmail.com', 'name' => 'Katrina Najaru'),
+    array('email' => 'budsparkdigital@gmail.com', 'name' => 'BudSpark Digital'),
 );
 
 function normalizeRecipients($mailRecipients) {
