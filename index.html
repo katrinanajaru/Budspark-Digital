@@ -88,12 +88,12 @@
           <h1 class="heading">How We Work</h1>
           <p style="font-size:1.7rem; color:#4a5568;">A structured process that keeps projects on time, on budget, and aligned with your goals.</p>
         </div>
-        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><i class="fa fa-search fa-2x mb-3"></i><h6>1. Discovery</h6><p>Define goals and scope.</p></div>
-        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><i class="fa fa-sitemap fa-2x mb-3"></i><h6>2. Planning</h6><p>Map timeline and milestones.</p></div>
-        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><i class="fa fa-pencil-square-o fa-2x mb-3"></i><h6>3. Design</h6><p>Create user-first interfaces.</p></div>
-        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><i class="fa fa-code fa-2x mb-3"></i><h6>4. Development</h6><p>Build secure, scalable systems.</p></div>
-        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><i class="fa fa-check-square-o fa-2x mb-3"></i><h6>5. QA & Launch</h6><p>Test and deploy with confidence.</p></div>
-        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><i class="fa fa-life-ring fa-2x mb-3"></i><h6>6. Support</h6><p>Optimize and scale continuously.</p></div>
+        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><div class="process-step"><i class="fa fa-search fa-2x mb-3"></i><h6>1. Discovery</h6><p>Define goals and scope.</p></div></div>
+        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><div class="process-step"><i class="fa fa-sitemap fa-2x mb-3"></i><h6>2. Planning</h6><p>Map timeline and milestones.</p></div></div>
+        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><div class="process-step"><i class="fa fa-pencil-square-o fa-2x mb-3"></i><h6>3. Design</h6><p>Create user-first interfaces.</p></div></div>
+        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><div class="process-step"><i class="fa fa-code fa-2x mb-3"></i><h6>4. Development</h6><p>Build secure, scalable systems.</p></div></div>
+        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><div class="process-step"><i class="fa fa-check-square-o fa-2x mb-3"></i><h6>5. QA & Launch</h6><p>Test and deploy with confidence.</p></div></div>
+        <div class="col-lg-2 col-md-4 col-6 text-center mb-4"><div class="process-step"><i class="fa fa-life-ring fa-2x mb-3"></i><h6>6. Support</h6><p>Optimize and scale continuously.</p></div></div>
       </div>
     </div>
   </section>
@@ -263,6 +263,11 @@
   <a href="#" class="back-to-top"><i class="ion-ios-arrow-up"></i></a>
 
   <style>
+    .process-step { background: #ffffff; border: 1px solid rgba(17, 168, 222, 0.14); border-radius: 1.4rem; padding: 2rem 1.2rem; min-height: 100%; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08); transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease; }
+    .process-step:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 18px 36px rgba(17, 168, 222, 0.22); border-color: rgba(17, 168, 222, 0.4); }
+    .process-step i { color: #102a43; }
+    .process-step h6 { font-size: 1.4rem; font-weight: 700; margin-bottom: .8rem; }
+    .process-step p { font-size: 1.15rem; margin-bottom: 0; color: #44566c; line-height: 1.5; }
     .consultation { background: radial-gradient(circle at 10% 20%, rgba(17, 168, 222, 0.14), transparent 40%), radial-gradient(circle at 90% 15%, rgba(17, 168, 222, 0.12), transparent 45%), linear-gradient(135deg, #f2fbff, #ffffff); padding: 6rem 0; color: #102a43; }
     .consultation .heading { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; }
     .consultation .subheading { font-size: 1.3rem; font-weight: 500; max-width: 860px; margin: 0 auto 3rem auto; line-height: 1.6; color: #1f2d3d; }
