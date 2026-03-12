@@ -1102,6 +1102,18 @@ body{
             color: #ffffff;
             line-height: 26px;
         }
+
+        .footer-contact-link {
+            color: #ffffff;
+            text-decoration: none;
+            text-underline-offset: 0.22em;
+        }
+
+        .footer-contact-link:hover,
+        .footer-contact-link:focus {
+            color: #ffffff;
+            text-decoration: underline;
+        }
         
         .footer .footer-top .footer-newsletter input[type="email"] {
             padding: 6px 8px;
@@ -1846,6 +1858,18 @@ body{
 .footer .footer-top .footer-contact p {
     line-height: 22px !important;
     margin-bottom: 0 !important;
+}
+
+.footer-contact-link {
+    color: #ffffff !important;
+    text-decoration: none;
+    text-underline-offset: 0.22em;
+}
+
+.footer-contact-link:hover,
+.footer-contact-link:focus {
+    color: #ffffff !important;
+    text-decoration: underline;
 }
 
 .footer .credit,

@@ -212,7 +212,7 @@
         <div class="col-md-4 col-sm-6 mb-3"><div class="highlight-card"><i class="fa fa-lightbulb-o"></i><h5>Expert Advice</h5><p>Get practical recommendations tailored to your goals.</p></div></div>
         <div class="col-md-4 col-sm-6 mb-3"><div class="highlight-card"><i class="fa fa-shield"></i><h5>Confidential</h5><p>Your project details are handled professionally and securely.</p></div></div>
       </div>
-      <form class="consultation-form row justify-content-center" action="mailing/mailfunction.php" method="POST">
+      <form id="consultation-form" class="consultation-form row justify-content-center">
         <div class="col-md-6 mb-3"><label for="consult-name" class="sr-only">Full Name</label><input id="consult-name" type="text" name="name" class="form-control" placeholder="Full Name" required></div>
         <div class="col-md-6 mb-3"><label for="consult-email" class="sr-only">Email</label><input id="consult-email" type="email" name="email" class="form-control" placeholder="Email" required></div>
         <div class="col-md-6 mb-3"><label for="consult-phone" class="sr-only">Phone Number</label><input id="consult-phone" type="tel" name="phone" class="form-control" placeholder="Phone Number" required></div>
@@ -246,9 +246,9 @@
             <h4>Contact Us</h4>
             <p>
               Remote Consultation<br>
-              <strong>Phone:</strong> <a href="tel:+254791555735" style="color:#ffffff; text-decoration:none;">+254791555735</a><br>
-              <strong>Email:</strong> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ianwanjohi20@gmail.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff; text-decoration:none;">ianwanjohi20@gmail.com</a><br>
-              <strong>Email:</strong> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=katrinanajaru1@gmail.com" target="_blank" rel="noopener noreferrer" style="color:#ffffff; text-decoration:none;">katrinanajaru1@gmail.com</a><br>
+              <strong>Phone:</strong> <a href="tel:+254791555735" class="footer-contact-link">+254791555735</a><br>
+              <strong>Email:</strong> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ianwanjohi20@gmail.com" target="_blank" rel="noopener noreferrer" class="footer-contact-link">ianwanjohi20@gmail.com</a><br>
+              <strong>Email:</strong> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=katrinanajaru1@gmail.com" target="_blank" rel="noopener noreferrer" class="footer-contact-link">katrinanajaru1@gmail.com</a><br>
             </p>
           </div>
         </div>
@@ -320,6 +320,42 @@
       }
       bubbles.forEach(function (bubble, i) { bubble.addEventListener('click', function () { setActive(i); }); });
       setInterval(function () { setActive((activeIndex + 1) % bubbles.length); }, 3200);
+    })();
+
+    (function () {
+      var consultationForm = document.getElementById('consultation-form');
+      if (!consultationForm) return;
+
+      consultationForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var name = document.getElementById('consult-name').value.trim();
+        var email = document.getElementById('consult-email').value.trim();
+        var phone = document.getElementById('consult-phone').value.trim();
+        var project = document.getElementById('consult-project').value.trim();
+
+        if (!name || !email || !phone) {
+          alert('Please complete your name, email, and phone number before booking.');
+          return;
+        }
+
+        var subject = 'New Consultation Booking Request';
+        var body = [
+          'New Consultation Booking',
+          '',
+          'Name: ' + name,
+          'Email: ' + email,
+          'Phone: ' + phone,
+          'Project / Query: ' + (project || 'Not provided')
+        ].join('\n');
+
+        var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
+          + '&to=' + encodeURIComponent('ianwanjohi20@gmail.com,katrinanajaru1@gmail.com')
+          + '&su=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
+
+        window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      });
     })();
   </script>
 
