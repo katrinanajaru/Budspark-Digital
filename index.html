@@ -325,6 +325,7 @@
     (function () {
       var consultationForm = document.getElementById('consultation-form');
       if (!consultationForm) return;
+      var consultationRecipients = 'ianwanjohi20@gmail.com,katrinanajaru1@gmail.com';
 
       consultationForm.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -350,9 +351,19 @@
         ].join('\n');
 
         var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
-          + '&to=' + encodeURIComponent('ianwanjohi20@gmail.com,katrinanajaru1@gmail.com')
+          + '&to=' + encodeURIComponent(consultationRecipients)
           + '&su=' + encodeURIComponent(subject)
           + '&body=' + encodeURIComponent(body);
+        var mailtoUrl = 'mailto:' + consultationRecipients
+          + '?subject=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
+        var isMobile = window.matchMedia('(max-width: 768px)').matches
+          || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+        if (isMobile) {
+          window.location.href = mailtoUrl;
+          return;
+        }
 
         window.open(gmailUrl, '_blank', 'noopener,noreferrer');
       });

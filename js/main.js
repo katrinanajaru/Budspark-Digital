@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var mobileBreakpoint = window.matchMedia('(max-width: 1000px)');
+    var mobileBreakpoint = window.matchMedia('(max-width: 768px)');
 
     function closeMobileNav() {
         $('.fa-bars').removeClass('fa-times');
