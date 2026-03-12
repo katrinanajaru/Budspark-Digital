@@ -9,7 +9,7 @@
     $body = "<ul><li>Name: ".$name."</li><li>Phone: ".$phone."</li><li>Email: ".$email."</li><li>Message: ".$message."</li></ul>";
     $plainTextBody = "Name: ".$name."\nPhone: ".$phone."\nEmail: ".$email."\nMessage: ".$message;
     $recipients = array(
-        array('email' => 'iankinyua322@gmail.com', 'name' => 'Ian Kinyua'),
+        array('email' => 'ianwanjohi20@gmail.com', 'name' => 'Ian Kinyua'),
         array('email' => 'katrinanajaru1@gmail.com', 'name' => 'Katrina Najaru'),
     );
 
