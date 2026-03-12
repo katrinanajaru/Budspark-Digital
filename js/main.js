@@ -1,10 +1,16 @@
 $(document).ready(function(){
+    var mobileBreakpoint = window.matchMedia('(max-width: 1000px)');
+
+    function closeMobileNav() {
+        $('.fa-bars').removeClass('fa-times');
+        $('.navbar').removeClass('nav-toggle').removeAttr('style');
+    }
+
     function syncHeaderState() {
-        var isMobile = $(window).width() <= 1000;
+        var isMobile = mobileBreakpoint.matches;
 
         if (!isMobile) {
-            $('.fa-bars').removeClass('fa-times');
-            $('.navbar').removeClass('nav-toggle').removeAttr('style');
+            closeMobileNav();
         }
 
         if($(window).scrollTop()>35) {
@@ -20,14 +26,19 @@ $(document).ready(function(){
     });
 
     $(window).on('load scroll',function(){
-        $('.fa-bars').removeClass('fa-times');
-        $('.navbar').removeClass('nav-toggle');
+        closeMobileNav();
         syncHeaderState();
     });
 
-    $(window).on('resize orientationchange', function () {
+    $(window).on('resize orientationchange pageshow', function () {
         syncHeaderState();
     });
+
+    if (window.visualViewport) {
+        $(window.visualViewport).on('resize', function () {
+            syncHeaderState();
+        });
+    }
 
     const counters = document.querySelectorAll('.counter');
     const speed = 120;
