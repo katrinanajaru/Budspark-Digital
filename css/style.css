@@ -1874,6 +1874,12 @@ body{
     margin-bottom: 0 !important;
 }
 
+.footer .footer-top .footer-links ul a,
+.footer .footer-top .footer-links ul a:hover,
+.footer .footer-top .footer-links ul a:focus {
+    color: #ffffff !important;
+}
+
 .footer-contact-link {
     color: #ffffff !important;
     text-decoration: none;
