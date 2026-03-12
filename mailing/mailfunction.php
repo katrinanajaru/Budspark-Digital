@@ -7,7 +7,12 @@ use PHPMailer\PHPMailer\Exception;
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/mailingvariables.php';
 
-function mailfunction($mail_recievers, $mail_msg, $plainTextMsg, $replyToEmail = '', $replyToName = '', $attachment = false){
+$consultationRecipients = array(
+    array('email' => 'iankinyua322@gmail.com', 'name' => 'Ian Kinyua'),
+    array('email' => 'katrinanajaru1@gmail.com', 'name' => 'Katrina Najaru'),
+);
+
+function mailfunction($mail_recievers, $subject, $mail_msg, $plainTextMsg, $replyToEmail = '', $replyToName = '', $attachment = false){
     try {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
@@ -37,7 +42,7 @@ function mailfunction($mail_recievers, $mail_msg, $plainTextMsg, $replyToEmail =
             $mail->addReplyTo($replyToEmail, $replyToName);
         }
 
-        $mail->Subject = 'Someone Contacted You!';
+        $mail->Subject = $subject;
         $mail->isHTML(true);
         $mail->msgHTML($mail_msg);
         $mail->AltBody = $plainTextMsg;
@@ -80,10 +85,15 @@ if (isset($_POST['submit'])) {
     }
 
     // Sanitize form inputs
-    $name    = htmlspecialchars($_POST['name']);
-    $email   = htmlspecialchars($_POST['email']);
-    $phone   = htmlspecialchars($_POST['phone']);
-    $project = htmlspecialchars($_POST['project']);
+    $name = htmlspecialchars(trim($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars(trim($_POST['email'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $phone = htmlspecialchars(trim($_POST['phone'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $project = htmlspecialchars(trim($_POST['project'] ?? ''), ENT_QUOTES, 'UTF-8');
+
+    if ($name === '' || $email === '' || $phone === '') {
+        echo "<script>alert('Please complete your name, email, and phone number before booking.'); window.location='../index.html';</script>";
+        exit;
+    }
 
     // Build the email message
     $message = "
@@ -100,13 +110,9 @@ if (isset($_POST['submit'])) {
         $attachment = $_FILES['attachment']['tmp_name'];
     }
 
-    $recipients = array(
-        array('email' => 'iankinyua322@gmail.com', 'name' => 'Ian Kinyua'),
-        array('email' => 'katrinanajaru1@gmail.com', 'name' => 'Katrina Najaru'),
-    );
-
     $plainTextMessage = buildPlainTextMessage($name, $email, $phone, $project);
-    $sendResult = mailfunction($recipients, $message, $plainTextMessage, $email, $name, $attachment);
+    $subject = 'New Consultation Booking Request';
+    $sendResult = mailfunction($consultationRecipients, $subject, $message, $plainTextMessage, $email, $name, $attachment);
 
     if ($sendResult['success']) {
         echo "<script>alert('Thank you! Your consultation request has been sent successfully.'); window.location='../index.html';</script>";
