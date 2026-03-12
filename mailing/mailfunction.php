@@ -12,8 +12,36 @@ $consultationRecipients = array(
     array('email' => 'katrinanajaru1@gmail.com', 'name' => 'Katrina Najaru'),
 );
 
-function mailfunction($mail_recievers, $subject, $mail_msg, $plainTextMsg, $replyToEmail = '', $replyToName = '', $attachment = false){
+function normalizeRecipients($mailRecipients) {
+    if (is_string($mailRecipients)) {
+        $mailRecipients = trim($mailRecipients);
+        if ($mailRecipients === '') {
+            return array();
+        }
+
+        return array(
+            array('email' => $mailRecipients, 'name' => ''),
+        );
+    }
+
+    if (!is_array($mailRecipients)) {
+        return array();
+    }
+
+    return $mailRecipients;
+}
+
+function mailfunction($mail_recievers, $subject, $mail_msg = '', $plainTextMsg = '', $replyToEmail = '', $replyToName = '', $attachment = false){
     try {
+        $normalizedRecipients = normalizeRecipients($mail_recievers);
+        if (empty($normalizedRecipients)) {
+            throw new Exception('No recipient email address was provided.');
+        }
+
+        if ($plainTextMsg === '' && $mail_msg !== '') {
+            $plainTextMsg = trim(strip_tags(str_replace(array('<br>', '<br/>', '<br />', '</p>'), "\n", $mail_msg)));
+        }
+
         $mail = new PHPMailer(true);
         $mail->isSMTP();
 
@@ -29,7 +57,7 @@ function mailfunction($mail_recievers, $subject, $mail_msg, $plainTextMsg, $repl
 
         $mail->setFrom($GLOBALS['mail_sender_email'], $GLOBALS['mail_sender_name']);
 
-        foreach ($mail_recievers as $recipient) {
+        foreach ($normalizedRecipients as $recipient) {
             $recipientEmail = $recipient['email'] ?? '';
             $recipientName = $recipient['name'] ?? '';
 
@@ -42,7 +70,7 @@ function mailfunction($mail_recievers, $subject, $mail_msg, $plainTextMsg, $repl
             $mail->addReplyTo($replyToEmail, $replyToName);
         }
 
-        $mail->Subject = $subject;
+        $mail->Subject = trim($subject) !== '' ? $subject : 'Someone Contacted You!';
         $mail->isHTML(true);
         $mail->msgHTML($mail_msg);
         $mail->AltBody = $plainTextMsg;
